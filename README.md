@@ -7,7 +7,7 @@ GPL-3.0 tools for small civil-survey tasks in AutoCAD-compatible CAD software.
 ## What it does
 
 - `CTCOORD` labels selected POINT entities with an ID and X/Y/Z coordinate.
-- `CTEXPORT` exports selected POINT and TEXT entities to a UTF-8 CSV file.
+- `CTEXPORT` exports selected POINT and TEXT entities to a CSV file using the host CAD text encoding.
 - `CTELEV` creates or updates an elevation label at a selected point.
 - `CTPROFILE` creates a basic chainage/elevation table from selected POINT entities.
 
