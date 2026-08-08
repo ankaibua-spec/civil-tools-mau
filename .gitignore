@@ -1,0 +1,9 @@
+*.bak
+*.fas
+*.vlx
+*.zip
+*.dwg
+*.dwl
+*.dwl2
+__pycache__/
+.pytest_cache/
