@@ -2,6 +2,7 @@
 *.fas
 *.vlx
 *.zip
+dist/
 *.dwg
 *.dwl
 *.dwl2

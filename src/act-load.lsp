@@ -4,11 +4,11 @@
 
 (vl-load-com)
 
+(setq ACT:version "0.2.0")
+
 (defun ACT:root-dir (/ path)
   (setq path (findfile "act-load.lsp"))
-  (if path
-    (vl-filename-directory path)
-  )
+  (if path (vl-filename-directory path))
 )
 
 (defun ACT:load-module (name / path)
@@ -22,7 +22,10 @@
 (ACT:load-module "act-core.lsp")
 (ACT:load-module "act-coord.lsp")
 (ACT:load-module "act-export.lsp")
+(ACT:load-module "act-import.lsp")
 (ACT:load-module "act-elev.lsp")
+(ACT:load-module "act-chainage.lsp")
+(ACT:load-module "act-interp.lsp")
 (ACT:load-module "act-profile.lsp")
-(prompt "\nAutoLISP Civil Tools Community loaded. Commands: CTCOORD, CTEXPORT, CTELEV, CTPROFILE.")
+(prompt (strcat "\nAutoLISP Civil Tools Community v" ACT:version " loaded. Commands: CTCOORD, CTEXPORT, CTIMPORT, CTELEV, CTCHAINAGE, CTINTERP, CTPROFILE."))
 (princ)

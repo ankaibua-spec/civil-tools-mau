@@ -5,7 +5,8 @@ This repository was created as an independent codebase on 2026-08-08 for public 
 | Area | Origin | Release decision |
 | --- | --- | --- |
 | `src/act-*.lsp` | Written new for this repository | Included |
-| `examples/sample-survey.dxf` and CSV fixture | Synthetic points created for this repository | Included |
+| `examples/sample-survey.dxf` and CSV fixtures | Synthetic points and text created for this repository | Included |
+| v0.2 WCS, CSV, curve, interpolation, Undo, and packaging work | Written new for this repository from public API behavior | Included |
 | Documentation and GitHub templates | Written new for this repository | Included |
 | AutoLISP TKD, commercial packages, client drawings | Separate private materials | Excluded |
 | Third-party AutoLISP snippets and libraries | License/ownership not established for this project | Excluded |
