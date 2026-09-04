@@ -8,8 +8,8 @@
 | Static QA | PASS: `python3 tests/check_repo.py` |
 | Parentheses, manifest, version, and command uniqueness | PASS |
 | Network/credential runtime patterns | PASS: none detected in AutoLISP source |
-| Package script and ZIP integrity | Pending tagged-commit verification |
-| GitHub Actions QA | Pending v0.2.0 push/tag |
+| Package script and ZIP integrity | PASS locally from committed source; SHA-256 verified |
+| GitHub Actions QA | PASS on main before the v0.2.0 tag |
 | AutoCAD runtime | NOT TESTED: AutoCAD is not installed on the VPS |
 | BricsCAD runtime | NOT TESTED: BricsCAD is not installed on the VPS |
 | Wine compatibility layer | NOT TESTED: Wine is not installed on the VPS |
