@@ -2,7 +2,7 @@
 
 Small, auditable GPL-3.0-or-later tools for civil-survey work in AutoCAD-compatible CAD software.
 
-**Status:** v0.3.0 source is ready for community CAD testing. This is an independent public project and contains no code or data from private commercial toolkits.
+**Status:** v0.4.0 source is ready for community CAD testing. This is an independent public project and contains no code or data from private commercial toolkits.
 
 [Huong dan tieng Viet khong dau](docs/README.vi.md) | [Command reference](docs/COMMANDS.md) | [Roadmap](ROADMAP.md)
 
@@ -16,7 +16,7 @@ HVLisp là bản sửa đổi (từ 2026-11-25) của AutoLISP Civil Tools Commu
 2. Giải nén, chép **nội dung bên trong** thư mục `civil-tools-mau-main` vào `C:\HVLisp`. Phải có file `C:\HVLisp\src\act-load.lsp`.
 3. Trong AutoCAD, vào `OPTIONS` > Files > Trusted Locations, thêm `C:\HVLisp\...` để không bị hỏi cảnh báo bảo mật.
 4. Gõ `APPLOAD`, nạp `C:\HVLisp\src\act-load.lsp`. Muốn tự nạp mỗi lần mở AutoCAD thì thêm file này vào Startup Suite.
-5. Dòng lệnh báo `HVLisp v0.3.0 - go HVHELP de xem lenh` là xong.
+5. Dòng lệnh báo `HVLisp v0.4.0 - go HVHELP de xem lenh` là xong.
 
 ### Cách cập nhật
 
@@ -42,8 +42,18 @@ Gõ `HVHELP` để xem trong AutoCAD (nội dung từ `lenh/danh-sach.txt`).
 | `CTCHAINAGE` | Ghi lý trình và offset của POINT theo đường cong. |
 | `CTINTERP` | Nội suy cao độ từ hai POINT khống chế. |
 | `CTPROFILE` | Tạo bảng lý trình, cao độ, offset cho POINT. |
+| `HVSO` | Đánh số thứ tự tăng dần tại các điểm click. |
 | `HVUPDATE` | Cập nhật HVLisp từ GitHub. |
 | `HVHELP` | Xem danh sách lệnh. |
+
+### HVSO - đánh số thứ tự
+
+1. Gõ `HVSO`.
+2. Nhập số bắt đầu (số nguyên không âm, Enter = 1).
+3. Nhập chiều cao chữ (lớn hơn 0, Enter = 2.5).
+4. Click lần lượt các điểm; Enter hoặc Esc để kết thúc.
+
+Mỗi lần click tạo một TEXT căn giữa tại điểm đó, trên layer `HV_SO` (màu 2), theo text style hiện hành và hướng của UCS hiện hành. Ví dụ bắt đầu 5, click 3 điểm được 5, 6, 7. Một lần Undo xóa toàn bộ số của lần chạy đó. Nếu layer `HV_SO` đã có sẵn thì lệnh giữ nguyên màu và trạng thái của layer.
 
 ## Commands
 
@@ -78,7 +88,7 @@ Never rely on generated labels or CSV files as the sole source for production su
 ```bash
 python3 tests/check_repo.py
 bash scripts/package_release.sh
-unzip -t dist/autolisp-civil-tools-v0.3.0.zip
+unzip -t dist/autolisp-civil-tools-v0.4.0.zip
 ```
 
 Please read [CONTRIBUTING.md](CONTRIBUTING.md). Report vulnerabilities privately using [SECURITY.md](SECURITY.md), not a public issue.

@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.4.0 - 2026-11-25
+
+- Thêm lệnh `HVSO`: đánh số thứ tự tăng dần tại các điểm click (TEXT căn giữa, layer `HV_SO` màu 2).
+- Chưa chạy thử trong AutoCAD hoặc BricsCAD.
+
 ## 0.3.0 - 2026-11-25
 
 - Đổi thành HVLisp, bản sửa đổi từ AutoLISP Civil Tools Community (GPL-3.0-or-later).

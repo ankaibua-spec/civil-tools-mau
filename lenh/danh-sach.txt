@@ -5,5 +5,6 @@ CTELEV - tao hoac cap nhat nhan cao do tai POINT
 CTCHAINAGE - ghi ly trinh va offset cua POINT theo duong cong
 CTINTERP - noi suy cao do tu hai POINT khong che
 CTPROFILE - tao bang ly trinh, cao do, offset cho POINT
+HVSO - danh so thu tu tang dan tai cac diem click
 HVUPDATE - cap nhat HVLisp tu GitHub
 HVHELP - xem danh sach lenh
