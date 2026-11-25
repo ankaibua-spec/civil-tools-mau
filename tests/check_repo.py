@@ -7,6 +7,7 @@ import sys
 
 ROOT = Path(__file__).resolve().parents[1]
 SRC = ROOT / "src"
+LENH = ROOT / "lenh"
 MODULES = [
     "act-core.lsp",
     "act-coord.lsp",
@@ -18,6 +19,9 @@ MODULES = [
     "act-profile.lsp",
 ]
 FORBIDDEN = [r"https?://", r"startapp", r"wscript\.shell", r"powershell", r"curl", r"wget", r"api[_-]?key", r"password", r"secret", r"token"]
+NETWORK_PATTERNS = {r"https?://", r"wscript\.shell", r"powershell"}
+NETWORK_FILE = LENH / "hv-update.lsp"
+COMMAND_PATTERN = r"\(defun\s+C:([^\s(/]+)"
 PUBLIC_COMMANDS = {"CTCOORD", "CTEXPORT", "CTIMPORT", "CTELEV", "CTCHAINAGE", "CTINTERP", "CTPROFILE"}
 
 def code_without_comments(text):
@@ -60,31 +64,51 @@ def check_parentheses(path, text, failures):
 
 def main():
     failures = []
-    commands = []
-    for path in sorted(SRC.glob("*.lsp")):
+    src_commands = []
+    new_commands = []
+    for path in sorted(SRC.glob("*.lsp")) + sorted(LENH.glob("*.lsp")):
         text = path.read_text(encoding="utf-8")
         check_parentheses(path, text, failures)
+        code = code_without_comments(text)
         for pattern in FORBIDDEN:
-            if re.search(pattern, code_without_comments(text), flags=re.IGNORECASE):
+            if path == NETWORK_FILE and pattern in NETWORK_PATTERNS:
+                continue
+            if re.search(pattern, code, flags=re.IGNORECASE):
                 failures.append(f"{path}: forbidden runtime pattern {pattern}")
-        commands.extend(re.findall(r"\(defun\s+C:([^\s(/]+)", text, flags=re.IGNORECASE))
+        found = [name.upper() for name in re.findall(COMMAND_PATTERN, code, flags=re.IGNORECASE)]
+        (src_commands if path.parent == SRC else new_commands).extend(found)
+    commands = src_commands + new_commands
     duplicates = sorted({name for name in commands if commands.count(name) > 1})
     if duplicates:
         failures.append("duplicate public commands: " + ", ".join(duplicates))
-    if set(commands) != PUBLIC_COMMANDS:
-        failures.append("public commands must be exactly: " + ", ".join(sorted(PUBLIC_COMMANDS)))
+    if set(src_commands) != PUBLIC_COMMANDS:
+        failures.append("src commands must be exactly: " + ", ".join(sorted(PUBLIC_COMMANDS)))
+    unprefixed = sorted({name for name in new_commands if not name.startswith("HV")})
+    if unprefixed:
+        failures.append("lenh commands must start with HV: " + ", ".join(unprefixed))
+    command_list = (LENH / "danh-sach.txt").read_text(encoding="ascii")
+    listed = {line.split(" - ")[0].strip().upper() for line in command_list.splitlines() if line.strip()}
+    if listed != set(commands):
+        failures.append("lenh/danh-sach.txt does not match commands: " + ", ".join(sorted(listed ^ set(commands))))
+    if not (ROOT / "update.ps1").read_bytes().isascii():
+        failures.append("update.ps1 must be ASCII only")
     loader = (SRC / "act-load.lsp").read_text(encoding="utf-8")
     for module in MODULES:
         if f'"{module}"' not in loader:
             failures.append(f"loader missing module: {module}")
-    if 'ACT:version "0.2.0"' not in loader:
-        failures.append("loader version must match 0.2.0")
+    version = (ROOT / "VERSION").read_text(encoding="utf-8").strip()
+    if not re.fullmatch(r"\d+\.\d+\.\d+", version):
+        failures.append("VERSION must look like X.Y.Z")
+    if "(ACT:read-version)" not in loader or re.search(r'setq\s+ACT:version\s+"', loader):
+        failures.append("loader must read its version from the VERSION file")
+    changelog = (ROOT / "CHANGELOG.md").read_text(encoding="utf-8")
+    latest = re.search(r"^## (\S+)", changelog, flags=re.MULTILINE)
+    if not latest or latest.group(1) != version:
+        failures.append(f"newest CHANGELOG.md entry must match VERSION {version}")
     core = (SRC / "act-core.lsp").read_text(encoding="utf-8")
     for contract in ["trans", "vla-StartUndoMark", "vla-EndUndoMark", "vlax-curve-getDistAtPoint"]:
         if contract not in core:
             failures.append(f"core missing safety contract: {contract}")
-    if (ROOT / "VERSION").read_text(encoding="utf-8").strip() != "0.2.0":
-        failures.append("VERSION must be 0.2.0")
     for command in PUBLIC_COMMANDS:
         matches = [path.read_text(encoding="utf-8") for path in SRC.glob("*.lsp") if f"(defun C:{command} " in path.read_text(encoding="utf-8")]
         if len(matches) == 1 and ("ACT:undo-start" not in matches[0] or "ACT:undo-end" not in matches[0]):

@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.3.0 - 2026-11-25
+
+- Đổi thành HVLisp, bản sửa đổi từ AutoLISP Civil Tools Community (GPL-3.0-or-later).
+- Loader ưu tiên thư mục cài `C:\HVLisp`, đọc phiên bản từ file `VERSION` và tự nạp mọi file `.lsp` trong `lenh\`.
+- Thêm lệnh `HVUPDATE` (cập nhật từ GitHub bằng `update.ps1`) và `HVHELP`.
+- Từ bản này bộ lệnh có kết nối mạng, chỉ khi người dùng gõ `HVUPDATE`.
+- `tests/check_repo.py` kiểm tra thêm `lenh/`, `danh-sach.txt`, `update.ps1` và so phiên bản theo `VERSION`.
+- Gói ZIP có thêm `lenh` và `update.ps1`.
+- Chưa chạy thử trong AutoCAD hoặc BricsCAD.
+
 ## 0.2.0 - 2026-09-04
 
 - Adds WCS CSV point import with quoted-field parsing and invalid-row reporting.
