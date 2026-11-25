@@ -12,8 +12,13 @@ HVLisp là bản sửa đổi (từ 2026-11-25) của AutoLISP Civil Tools Commu
 
 ### Cách cài
 
-1. Tải <https://github.com/ankaibua-spec/civil-tools-mau/archive/refs/heads/main.zip>.
-2. Giải nén, chép **nội dung bên trong** thư mục `civil-tools-mau-main` vào `C:\HVLisp`. Phải có file `C:\HVLisp\src\act-load.lsp`.
+1. Trên Windows, mở PowerShell (chuột phải nút Start → Terminal), dán một dòng sau rồi Enter:
+
+   ```powershell
+   [Net.ServicePointManager]::SecurityProtocol='Tls12'; $r='ankaibua-spec/civil-tools-mau'; $f="$env:TEMP\cai-lisp.ps1"; iwr -UseBasicParsing "https://raw.githubusercontent.com/$r/main/update.ps1" -OutFile $f; powershell -NoProfile -ExecutionPolicy Bypass -File $f -Repo $r -Dest 'C:\HVLisp'
+   ```
+
+2. Không báo chữ đỏ là xong; phải có file `C:\HVLisp\src\act-load.lsp`. (Cách tay: tải <https://github.com/ankaibua-spec/civil-tools-mau/archive/refs/heads/main.zip>, giải nén, chép **nội dung bên trong** thư mục `civil-tools-mau-main` vào `C:\HVLisp`.)
 3. Trong AutoCAD, vào `OPTIONS` > Files > Trusted Locations, thêm `C:\HVLisp\...` để không bị hỏi cảnh báo bảo mật.
 4. Gõ `APPLOAD`, nạp `C:\HVLisp\src\act-load.lsp`. Muốn tự nạp mỗi lần mở AutoCAD thì thêm file này vào Startup Suite.
 5. Dòng lệnh báo `HVLisp v0.4.0 - go HVHELP de xem lenh` là xong.
